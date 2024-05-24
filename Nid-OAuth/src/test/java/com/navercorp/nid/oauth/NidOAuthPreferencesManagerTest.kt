@@ -6,6 +6,7 @@ import com.navercorp.naverid.NaverIdTestCase
 import com.navercorp.nid.log.NidLog
 import com.navercorp.nid.oauth.legacy.OAuthErrorCode
 import com.navercorp.nid.oauth.legacy.OAuthLoginPreferenceManager
+import com.navercorp.nid.preference.EncryptedPreferences
 import org.junit.Assert
 import org.junit.Before
 import org.junit.BeforeClass
@@ -61,12 +62,6 @@ class NidOAuthPreferencesManagerTest : NaverIdTestCase() {
         Assert.assertEquals(value, NidOAuthPreferencesManager.clientId)
     }
 
-    @Test
-    fun clientSecret_테스트() {
-        val value = "value"
-        NidOAuthPreferencesManager.clientSecret = value
-        Assert.assertEquals(value, NidOAuthPreferencesManager.clientSecret)
-    }
     @Test
     fun clientName_테스트() {
         val value = "value"
@@ -179,15 +174,6 @@ class NidOAuthPreferencesManagerTest : NaverIdTestCase() {
         NidOAuthPreferencesManager.clientId = value
 
         Assert.assertEquals(oAuthLoginPreferenceManager.clientId, NidOAuthPreferencesManager.clientId)
-    }
-
-    @Test
-    fun clientSecret_리그레션_테스트() {
-        val value = "value"
-        oAuthLoginPreferenceManager.clientSecret = value
-        NidOAuthPreferencesManager.clientSecret = value
-
-        Assert.assertEquals(oAuthLoginPreferenceManager.clientSecret, NidOAuthPreferencesManager.clientSecret)
     }
 
     @Test

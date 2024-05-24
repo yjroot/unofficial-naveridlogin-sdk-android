@@ -20,10 +20,9 @@ import retrofit2.Response
  */
 class NidOAuthApi {
 
-    suspend fun requestAccessToken(): Response<NidOAuthResponse> {
+    suspend fun requestAccessToken(clientSecret: String): Response<NidOAuthResponse> {
 
         val clientId = NidOAuthPreferencesManager.clientId ?: ""
-        val clientSecret = NidOAuthPreferencesManager.clientSecret ?: ""
         val state = NidOAuthPreferencesManager.state ?: ""
         val code = NidOAuthPreferencesManager.code ?: ""
 
@@ -39,10 +38,9 @@ class NidOAuthApi {
         )
     }
 
-    suspend fun requestRefreshToken (): Response<NidOAuthResponse> {
+    suspend fun requestRefreshToken (clientSecret: String): Response<NidOAuthResponse> {
 
         val clientId = NidOAuthPreferencesManager.clientId ?: ""
-        val clientSecret = NidOAuthPreferencesManager.clientSecret ?: ""
         val refreshToken = NidOAuthPreferencesManager.refreshToken ?: ""
 
         val service = NidOAuthLoginService.create()
@@ -56,10 +54,9 @@ class NidOAuthApi {
         )
     }
 
-    suspend fun deleteToken(): Response<NidOAuthResponse> {
+    suspend fun deleteToken(clientSecret: String): Response<NidOAuthResponse> {
 
         val clientId = NidOAuthPreferencesManager.clientId ?: ""
-        val clientSecret = NidOAuthPreferencesManager.clientSecret ?: ""
         val accessToken = NidOAuthPreferencesManager.accessToken ?: ""
 
         val service = NidOAuthLoginService.create()
@@ -72,5 +69,4 @@ class NidOAuthApi {
             locale = NidDeviceUtil.getLocale()
         )
     }
-
 }

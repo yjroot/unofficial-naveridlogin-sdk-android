@@ -28,7 +28,6 @@ enum class NidOAuthErrorCode(
     ERROR_NO_CATAGORIZED ("no_catagorized_error", "no_catagorized_error"),
     CLIENT_ERROR_PARSING_FAIL ("parsing_fail", "parsing_fail"),
     CLIENT_ERROR_NO_CLIENTID ("invalid_request", "no_clientid"),
-    CLIENT_ERROR_NO_CLIENTSECRET ("invalid_request", "no_clientsecret"),
     CLIENT_ERROR_NO_CLIENTNAME ("invalid_request", "no_clientname"),
     CLIENT_ERROR_NO_CALLBACKURL ("invalid_request", "no_callbackurl"),
     CLIENT_ERROR_CONNECTION_ERROR ("server_error", "connection_error"),

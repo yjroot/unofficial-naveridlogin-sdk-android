@@ -27,10 +27,9 @@ class NaverIdLoginSDKTest: NaverIdTestCase() {
 
     @Test
     fun initialize_테스트() {
-        NaverIdLoginSDK.initialize(context, "clientId", "clientSecret", "clientName")
+        NaverIdLoginSDK.initialize(context, "clientId", "clientName")
 
         Assert.assertEquals("clientId", NidOAuthPreferencesManager.clientId)
-        Assert.assertEquals("clientSecret", NidOAuthPreferencesManager.clientSecret)
         Assert.assertEquals("clientName", NidOAuthPreferencesManager.clientName)
         Assert.assertEquals(context.packageName, NidOAuthPreferencesManager.callbackUrl)
         Assert.assertEquals(NidOAuthErrorCode.NONE, NidOAuthPreferencesManager.lastErrorCode)
@@ -39,13 +38,12 @@ class NaverIdLoginSDKTest: NaverIdTestCase() {
 
     @Test
     fun initialize_리그레션_테스트() {
-        LegacyOAuthLogin.getInstance().init(context, "clientId", "clientSecret", "clientName")
-        NaverIdLoginSDK.initialize(context, "clientId", "clientSecret", "clientName")
+        LegacyOAuthLogin.getInstance().init(context, "clientId", "clientName")
+        NaverIdLoginSDK.initialize(context, "clientId", "clientName")
 
         val preferenceManager = OAuthLoginPreferenceManager(context)
 
         Assert.assertEquals(preferenceManager.clientId, NidOAuthPreferencesManager.clientId)
-        Assert.assertEquals(preferenceManager.clientSecret, NidOAuthPreferencesManager.clientSecret)
         Assert.assertEquals(preferenceManager.clientName, NidOAuthPreferencesManager.clientName)
         Assert.assertEquals(preferenceManager.callbackUrl, NidOAuthPreferencesManager.callbackUrl)
         Assert.assertEquals(preferenceManager.lastErrorCode.name, NidOAuthPreferencesManager.lastErrorCode.name)
@@ -177,7 +175,6 @@ class NaverIdLoginSDKTest: NaverIdTestCase() {
     @Test
     fun getState_테스트() {
         NidOAuthPreferencesManager.clientId = null
-        NidOAuthPreferencesManager.clientSecret = null
         NidOAuthPreferencesManager.refreshToken = null
         NidOAuthPreferencesManager.accessToken = null
         NidOAuthPreferencesManager.expiresAt = 0L
@@ -185,9 +182,6 @@ class NaverIdLoginSDKTest: NaverIdTestCase() {
         Assert.assertEquals(NidOAuthLoginState.NEED_INIT, NaverIdLoginSDK.getState())
 
         NidOAuthPreferencesManager.clientId = "clientId"
-        Assert.assertEquals(NidOAuthLoginState.NEED_INIT, NaverIdLoginSDK.getState())
-
-        NidOAuthPreferencesManager.clientSecret = "clientSecret"
         Assert.assertEquals(NidOAuthLoginState.NEED_LOGIN, NaverIdLoginSDK.getState())
 
         NidOAuthPreferencesManager.refreshToken = "refreshToken"
@@ -201,14 +195,12 @@ class NaverIdLoginSDKTest: NaverIdTestCase() {
     @Test
     fun getState_리그레션_테스트() {
         NidOAuthPreferencesManager.clientId = null
-        NidOAuthPreferencesManager.clientSecret = null
         NidOAuthPreferencesManager.refreshToken = null
         NidOAuthPreferencesManager.accessToken = null
         NidOAuthPreferencesManager.expiresAt = 0L
 
         val preferenceManager = OAuthLoginPreferenceManager(context)
         preferenceManager.clientId = null
-        preferenceManager.clientSecret = null
         preferenceManager.refreshToken = null
         preferenceManager.accessToken = null
         preferenceManager.expiresAt = 0L
@@ -217,10 +209,6 @@ class NaverIdLoginSDKTest: NaverIdTestCase() {
 
         preferenceManager.clientId = "clientId"
         NidOAuthPreferencesManager.clientId = "clientId"
-        Assert.assertEquals(LegacyOAuthLogin.getInstance().getState(context), NaverIdLoginSDK.getState())
-
-        preferenceManager.clientSecret = "clientSecret"
-        NidOAuthPreferencesManager.clientSecret = "clientSecret"
         Assert.assertEquals(LegacyOAuthLogin.getInstance().getState(context), NaverIdLoginSDK.getState())
 
         preferenceManager.refreshToken = "refreshToken"

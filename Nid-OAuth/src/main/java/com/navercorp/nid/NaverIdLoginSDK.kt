@@ -77,10 +77,9 @@ object NaverIdLoginSDK {
      * OAuth 인증시 필요한 값들을 preference에 저장함. 2015년 8월 이후에 등록하여 package name 을 넣은 경우 사용.
      * @param context shared Preference를 얻어올 때 사용할 context
      * @param clientId OAuth client id 값
-     * @param clientSecret OAuth client secret 값
      * @param clientName OAuth client name 값 (네이버앱을 통한 로그인시 보여짐)
      */
-    fun initialize(context: Context, clientId: String, clientSecret: String, clientName: String) {
+    fun initialize(context: Context, clientId: String, clientName: String) {
 
         // 1. SharedPreferences 초기화
         EncryptedPreferences.setContext(context.applicationContext)
@@ -88,7 +87,6 @@ object NaverIdLoginSDK {
         // 2. 데이터 초기화
         NidOAuthPreferencesManager.apply {
             this.clientId = clientId
-            this.clientSecret = clientSecret
             this.clientName = clientName
             this.callbackUrl = context.packageName
             this.lastErrorCode = NidOAuthErrorCode.NONE
@@ -258,10 +256,6 @@ object NaverIdLoginSDK {
     fun getState(): NidOAuthLoginState {
         val clientId = NidOAuthPreferencesManager.clientId
         if (clientId.isNullOrEmpty()) {
-            return NidOAuthLoginState.NEED_INIT
-        }
-        val clientSecret = NidOAuthPreferencesManager.clientSecret
-        if (clientSecret.isNullOrEmpty()) {
             return NidOAuthLoginState.NEED_INIT
         }
 

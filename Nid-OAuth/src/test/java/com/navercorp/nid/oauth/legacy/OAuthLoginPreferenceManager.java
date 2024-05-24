@@ -75,15 +75,6 @@ public class OAuthLoginPreferenceManager {
         return (String) PREF_KEY.CLIENT_ID.get();
     }
 
-
-    public void setClientSecret(String clientSecret) {
-        PREF_KEY.CLIENT_SECRET.set(clientSecret);
-    }
-
-    public String getClientSecret() {
-        return (String) PREF_KEY.CLIENT_SECRET.get();
-    }
-
     public void setClientName(String clientName) {
         PREF_KEY.CLIENT_NAME.set(clientName);
     }
@@ -136,7 +127,6 @@ public class OAuthLoginPreferenceManager {
         EXPIRES_AT				("EXPIRES_AT"         , long.class),
         TOKEN_TYPE				("TOKEN_TYPE"         , String.class),
         CLIENT_ID				("CLIENT_ID"       	  , String.class),
-        CLIENT_SECRET			("CLIENT_SECRET"      , String.class),
         CLIENT_NAME				("CLIENT_NAME"        , String.class),
         CALLBACK_URL			("CALLBACK_URL"       , String.class),
         LAST_ERROR_CODE			("LAST_ERROR_CODE"    , String.class),

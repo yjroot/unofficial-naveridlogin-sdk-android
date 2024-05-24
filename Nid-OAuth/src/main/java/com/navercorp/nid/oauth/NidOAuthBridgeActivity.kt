@@ -62,10 +62,6 @@ class NidOAuthBridgeActivity : AppCompatActivity() {
 			finishWithErrorResult(NidOAuthErrorCode.CLIENT_ERROR_NO_CLIENTID)
 			return false
 		}
-		if (NidOAuthPreferencesManager.clientSecret.isNullOrEmpty()) {
-			finishWithErrorResult(NidOAuthErrorCode.CLIENT_ERROR_NO_CLIENTSECRET)
-			return false
-		}
 		if (NidOAuthPreferencesManager.clientName.isNullOrEmpty()) {
 			finishWithErrorResult(NidOAuthErrorCode.CLIENT_ERROR_NO_CLIENTNAME)
 			return false

@@ -53,12 +53,6 @@ object NidOAuthPreferencesManager {
         set(value) = EncryptedPreferences.set(CLIENT_ID, value)
         get() = EncryptedPreferences.get(CLIENT_ID, null)
 
-    private const val CLIENT_SECRET = "CLIENT_SECRET"
-    @JvmStatic
-    var clientSecret: String?
-        set(value) = EncryptedPreferences.set(CLIENT_SECRET, value)
-        get() = EncryptedPreferences.get(CLIENT_SECRET, null)
-
     private const val CLIENT_NAME = "CLIENT_NAME"
     @JvmStatic
     var clientName: String?
@@ -141,7 +135,6 @@ object NidOAuthPreferencesManager {
             REFRESH_TOKEN,
             EXPIRES_AT,
             CLIENT_ID,
-            CLIENT_SECRET,
             CLIENT_NAME,
             CALLBACK_URL,
             TOKEN_TYPE,

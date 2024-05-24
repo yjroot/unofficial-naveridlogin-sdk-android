@@ -14,7 +14,7 @@ class NidOAuthErrorCodeTest: NaverIdTestCase() {
 
         for (errorCode in NidOAuthErrorCode.values()) {
             when (errorCode) {
-                NidOAuthErrorCode.CLIENT_ERROR_NO_CLIENTID, NidOAuthErrorCode.CLIENT_ERROR_NO_CLIENTSECRET,
+                NidOAuthErrorCode.CLIENT_ERROR_NO_CLIENTID,
                 NidOAuthErrorCode.CLIENT_ERROR_NO_CLIENTNAME, NidOAuthErrorCode.CLIENT_ERROR_NO_CALLBACKURL -> {
                     Assert.assertEquals(NidOAuthErrorCode.SERVER_ERROR_INVALID_REQUEST, NidOAuthErrorCode.fromString(errorCode.code))
                 }

@@ -32,16 +32,14 @@ public class LegacyOAuthLogin {
      * OAuth 인증시 필요한 값들을 preference에 저장함. 2015년 8월 이후에 등록하여 package name 을 넣은 경우 사용.
      * @param context shared Preference를 얻어올 때 사용할 context
      * @param clientId OAuth client id 값
-     * @param clientSecret OAuth client secret 값
      * @param clientName OAuth client name 값 (네이버앱을 통한 로그인시 보여짐)
      */
-    public void init(Context context, String clientId, String clientSecret, String clientName) {
+    public void init(Context context, String clientId, String clientName) {
         String packageName = context.getPackageName();
 
         OAuthLoginPreferenceManager prefMng = new OAuthLoginPreferenceManager(context);
 
         prefMng.setClientId(clientId);
-        prefMng.setClientSecret(clientSecret);
 
         prefMng.setClientName(clientName);
         prefMng.setCallbackUrl(packageName);
@@ -58,13 +56,12 @@ public class LegacyOAuthLogin {
      * OAuth 인증시 필요한 값들을 preference에 저장함. 2015년 8월 이전 등록했고 그 뒤로 앱 정보 변경을 하지 않은 경우 사용.
      * @param context shared Preference를 얻어올 때 사용할 context
      * @param clientId OAuth client id 값
-     * @param clientSecret OAuth client secret 값
      * @param clientName OAuth client name 값 (네이버앱을 통한 로그인시 보여짐)
      * @param callbackIntent 2015년 8월 이전에 등록한 사용자는 네아로 웹페이지에서 앱 등록시 넣어준 intent(callback url)를 넣어준다. 그 값과 다르면 인증을 실패한다.
      */
     @Deprecated
-    public void init(Context context, String clientId, String clientSecret, String clientName, String callbackIntent) {
-        init(context, clientId, clientSecret, clientName);
+    public void init(Context context, String clientId, String clientName, String callbackIntent) {
+        init(context, clientId, clientName);
     }
 
     private boolean valid(Context context) {
@@ -75,10 +72,6 @@ public class LegacyOAuthLogin {
         OAuthLoginPreferenceManager prefMng = new OAuthLoginPreferenceManager(context);
         if (TextUtils.isEmpty(prefMng.getClientId())) {
 //            Logger.i(TAG, "CliendId is null");
-            return false;
-        }
-        if (TextUtils.isEmpty(prefMng.getClientSecret())) {
-//            Logger.i(TAG, "CliendSecret is null");
             return false;
         }
         return true;
