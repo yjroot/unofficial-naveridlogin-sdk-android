@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         // Initialize NAVER id login SDK
         NaverIdLoginSDK.apply {
             showDevelopersLog(true)
-            initialize(context, clientId, clientSecret, clientName)
+            initialize(context, clientId, clientName)
             isShowMarketLink = true
             isShowBottomTab = true
         }
@@ -123,7 +123,7 @@ class MainActivity : AppCompatActivity() {
 
         // 연동 끊기
         binding.deleteToken.setOnClickListener {
-            NidOAuthLogin().callDeleteTokenApi(object : OAuthLoginCallback {
+            NidOAuthLogin().callDeleteTokenApi(clientSecret, object : OAuthLoginCallback {
                 override fun onSuccess() {
                     updateView()
                 }
@@ -147,7 +147,7 @@ class MainActivity : AppCompatActivity() {
 
         // 토큰 갱신
         binding.refreshToken.setOnClickListener {
-            NidOAuthLogin().callRefreshAccessTokenApi(object : OAuthLoginCallback {
+            NidOAuthLogin().callRefreshAccessTokenApi(clientSecret, object : OAuthLoginCallback {
                 override fun onSuccess() {
                     updateView()
                 }
@@ -377,7 +377,7 @@ class MainActivity : AppCompatActivity() {
                     return
                 }
                 updateUserData()
-                NaverIdLoginSDK.initialize(context, clientId, clientSecret, clientName)
+                NaverIdLoginSDK.initialize(context, clientId, clientName)
             }
 
             override fun onNothingSelected(parents: AdapterView<*>?) {
@@ -392,7 +392,7 @@ class MainActivity : AppCompatActivity() {
             clientSecret = binding.oauthClientsecret.text.toString()
             clientName = binding.oauthClientname.text.toString()
 
-            NaverIdLoginSDK.initialize(context, clientId, clientSecret, clientName)
+            NaverIdLoginSDK.initialize(context, clientId, clientName)
 
             updateUserData()
 

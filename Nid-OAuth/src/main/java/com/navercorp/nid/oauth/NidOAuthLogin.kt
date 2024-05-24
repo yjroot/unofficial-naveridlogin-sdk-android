@@ -26,12 +26,12 @@ class NidOAuthLogin {
         const val TAG = "NidOAuthLogin"
     }
 
-    private suspend fun requestAccessToken(context: Context): NidOAuthResponse? {
+    private suspend fun requestAccessToken(clientSecret: String, context: Context): NidOAuthResponse? {
 
         val response: Response<NidOAuthResponse>
         try {
             response = withContext(Dispatchers.IO) {
-                NidOAuthApi().requestAccessToken()
+                NidOAuthApi().requestAccessToken(clientSecret)
             }
         } catch (t: Throwable) {
             errorHandling(throwable = t)
@@ -72,15 +72,14 @@ class NidOAuthLogin {
             }
         }
         return response.body()
-
     }
 
-    private suspend fun requestAccessToken(context: Context, callback: OAuthLoginCallback): NidOAuthResponse? {
+    private suspend fun requestAccessToken(clientSecret: String, callback: OAuthLoginCallback): NidOAuthResponse? {
 
         val response: Response<NidOAuthResponse>
         try {
             response = withContext(Dispatchers.IO) {
-                NidOAuthApi().requestAccessToken()
+                NidOAuthApi().requestAccessToken(clientSecret)
             }
         } catch (t: Throwable) {
             errorHandling(throwable = t)
@@ -124,12 +123,12 @@ class NidOAuthLogin {
 
     }
 
-    private suspend fun requestRefreshAccessToken(callback: OAuthLoginCallback): String? {
+    private suspend fun requestRefreshAccessToken(clientSecret: String, callback: OAuthLoginCallback): String? {
 
         val response: Response<NidOAuthResponse>
         try {
             response = withContext(Dispatchers.IO) {
-                NidOAuthApi().requestRefreshToken()
+                NidOAuthApi().requestRefreshToken(clientSecret)
             }
         } catch (t: Throwable) {
             errorHandling(throwable = t)
@@ -165,15 +164,15 @@ class NidOAuthLogin {
         return response.body()?.accessToken
     }
 
-    fun callRefreshAccessTokenApi(callback: OAuthLoginCallback) = CoroutineScope(Dispatchers.Main).launch {
-        requestRefreshAccessToken(callback)
+    fun callRefreshAccessTokenApi(clientSecret:String, callback: OAuthLoginCallback) = CoroutineScope(Dispatchers.Main).launch {
+        requestRefreshAccessToken(clientSecret, callback)
     }
 
-    fun callDeleteTokenApi(callback: OAuthLoginCallback) = CoroutineScope(Dispatchers.Main).launch {
+    fun callDeleteTokenApi(clientSecret: String, callback: OAuthLoginCallback) = CoroutineScope(Dispatchers.Main).launch {
         val response: Response<NidOAuthResponse>
         try {
             response = withContext(Dispatchers.IO) {
-                NidOAuthApi().deleteToken()
+                NidOAuthApi().deleteToken(clientSecret)
             }
         } catch (t: Throwable) {
             errorHandling(throwable = t)
@@ -274,8 +273,10 @@ class NidOAuthLogin {
         }
     }
 
-    suspend fun refreshToken() = withContext(Dispatchers.Main) {
-        val accessToken = requestRefreshAccessToken(object: OAuthLoginCallback {
+    suspend fun refreshToken(clientSecret: String) = withContext(Dispatchers.Main) {
+        val accessToken = requestRefreshAccessToken(
+                clientSecret,
+                object: OAuthLoginCallback {
             override fun onSuccess() {
                 NidLog.d(TAG, "requestRefreshAccessToken | onSuccess()")
             }
@@ -293,16 +294,16 @@ class NidOAuthLogin {
         return@withContext accessToken.isNullOrEmpty().not()
     }
 
-    fun accessToken(context: Context, callback: OAuthLoginCallback?) {
+    fun accessToken(clientSecret: String, context: Context, callback: OAuthLoginCallback?) {
         val progressDialog = NidProgressDialog(context)
 
         CoroutineScope(Dispatchers.Main).launch {
 
             progressDialog.showProgress(R.string.naveroauthlogin_string_getting_token)
             val res = if (callback == null) {
-                requestAccessToken(context)
+                requestAccessToken(clientSecret, context)
             } else {
-                requestAccessToken(context, callback)
+                requestAccessToken(clientSecret, callback)
             }
             progressDialog.hideProgress()
 

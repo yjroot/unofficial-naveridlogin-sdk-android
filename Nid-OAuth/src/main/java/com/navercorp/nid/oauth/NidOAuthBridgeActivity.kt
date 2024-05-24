@@ -62,11 +62,11 @@ class NidOAuthBridgeActivity : AppCompatActivity() {
 			finishWithErrorResult(NidOAuthErrorCode.CLIENT_ERROR_NO_CLIENTID)
 			return false
 		}
-		if (NidOAuthPreferencesManager.clientName.isNullOrEmpty()) {
+        if (NidOAuthPreferencesManager.clientName.isNullOrEmpty()) {
 			finishWithErrorResult(NidOAuthErrorCode.CLIENT_ERROR_NO_CLIENTNAME)
 			return false
 		}
-		if (NidOAuthPreferencesManager.callbackUrl.isNullOrEmpty()) {
+        if (NidOAuthPreferencesManager.callbackUrl.isNullOrEmpty()) {
 			finishWithErrorResult(NidOAuthErrorCode.CLIENT_ERROR_NO_CALLBACKURL)
 			return false
 		}
@@ -344,7 +344,7 @@ class NidOAuthBridgeActivity : AppCompatActivity() {
         if (code.isNullOrEmpty()) {
             finishWithErrorResult(data)
         } else {
-            NidOAuthLogin().accessToken(this, NaverIdLoginSDK.oauthLoginCallback)
+            NaverIdLoginSDK.oauthLoginCallback?.onSuccess()
         }
     }
 }
